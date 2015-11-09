@@ -5,11 +5,21 @@ var moment = require('./moment');
 var mDates = {
     ПН: '2015-11-02',
     ВТ: '2015-11-03',
-    СР: '2015-11-04'
+    СР: '2015-11-04',
+    ЧТ: '2015-11-05',
+    ПТ: '2015-11-06',
+    СБ: '2015-11-07',
+    ВС: '2015-11-08'
 };
 
+/**
+ * Конвертирует время в объект Date, беря дату
+ * из первой недели ноября 2015 года
+ * @param formatedTime - время в формате "ВТ 03:00-5"
+ * @returns {Date}
+ */
 function converToRealTime(formatedTime) {
-    // Считаем что всегда заданный формат
+    // Считаем что всегда один заданный формат
     // Считаем, что все это про начало ноября 2015 года
     var toParse = mDates[formatedTime.slice(0, 2)];
     toParse += 'T';
@@ -17,12 +27,18 @@ function converToRealTime(formatedTime) {
     toParse += formatedTime.slice(8, 9);
     toParse += '0' + formatedTime.slice(9, 10);
     toParse += ':00';
-    //console.log(toParse);
     var parsedTime = Date.parse(toParse);
-    //console.log(new Date(parsedTime));
     return new Date(parsedTime);
 }
 
+/**
+ * Проверка, свободен ли данный человек в
+ * текущее время
+ * @param date - время задано в ms
+ * @param name - имя человека из банды
+ * @param gang - банда
+ * @returns {boolean}
+ */
 function isAvailable(date, name, gang) {
     var available = true;
     gang[name].forEach(function (timeDict) {
@@ -40,7 +56,6 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
     var appropriateMoment = moment();
 
     var gang = JSON.parse(json);
-    console.log(gang);
     // Делаем стандартную дату
     for (var name in gang) {
         gang[name].forEach(function (timeDict) {
@@ -48,7 +63,6 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
             timeDict['to'] = converToRealTime(timeDict['to']);
         }, this);
     }
-    console.log(gang);
 
     // Простое решение:
     // Идем по каждому дню с момента открытие по момент закрытия банка
@@ -98,7 +112,6 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
 
             // Проверяем, есть ли ответ
             if (currFreeSegment === minDuration) {
-                console.log(new Date(cmin.getTime() - msDuration));
                 if (!appropriateMoment.date) {
                     appropriateMoment.date = new Date(cmin.getTime() - msDuration);
                 }

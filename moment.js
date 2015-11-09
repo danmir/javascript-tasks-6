@@ -19,6 +19,7 @@ module.exports = function () {
         timezone: null,
 
         // Выводит дату в переданном формате
+        // Если timezone === null, то показываем в локальном времени
         format: function (pattern) {
             var utcDay = this.date.getUTCDay(); // Sunday is 0, Monday is 1, and so on.
             var rusDay = rusWeekDays[utcDay];
