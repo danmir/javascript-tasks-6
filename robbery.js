@@ -43,7 +43,7 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
     console.log(gang);
     // Делаем стандартную дату
     for (var name in gang) {
-        gang[name].forEach( function (timeDict) {
+        gang[name].forEach(function (timeDict) {
             timeDict['from'] = converToRealTime(timeDict['from']);
             timeDict['to'] = converToRealTime(timeDict['to']);
         }, this);
