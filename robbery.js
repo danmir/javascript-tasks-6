@@ -11,11 +11,11 @@ var mDates = {
 function converToRealTime(formatedTime) {
     // Считаем что всегда заданный формат
     // Считаем, что все это про начало ноября 2015 года
-    var toParse = mDates[formatedTime.slice(0,2)];
+    var toParse = mDates[formatedTime.slice(0, 2)];
     toParse += 'T';
-    toParse += formatedTime.slice(3,8);
-    toParse += formatedTime.slice(8,9);
-    toParse += '0' + formatedTime.slice(9,10);
+    toParse += formatedTime.slice(3, 8);
+    toParse += formatedTime.slice(8, 9);
+    toParse += '0' + formatedTime.slice(9, 10);
     toParse += ':00';
     //console.log(toParse);
     var parsedTime = Date.parse(toParse);
@@ -25,7 +25,7 @@ function converToRealTime(formatedTime) {
 
 function isAvailable(date, name, gang) {
     var available = true;
-    gang[name].forEach(function(timeDict){
+    gang[name].forEach(function (timeDict) {
         var f = timeDict['from'].getTime();
         var t = timeDict['to'].getTime();
         if (f <= date && date <= t) {
@@ -38,13 +38,12 @@ function isAvailable(date, name, gang) {
 // Выбирает подходящий ближайший момент начала ограбления
 module.exports.getAppropriateMoment = function (json, minDuration, workingHours) {
     var appropriateMoment = moment();
-    appropriateMoment.timezone
 
     var gang = JSON.parse(json);
     console.log(gang);
     // Делаем стандартную дату
     for (var name in gang) {
-        gang[name].forEach(function(timeDict){
+        gang[name].forEach( function (timeDict) {
             timeDict['from'] = converToRealTime(timeDict['from']);
             timeDict['to'] = converToRealTime(timeDict['to']);
         }, this);

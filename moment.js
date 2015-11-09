@@ -24,7 +24,9 @@ module.exports = function () {
             var rusDay = rusWeekDays[utcDay];
             var utcHours = String('0' + this.date.getHours()).slice(-2);
             var utcMin = String('0' + this.date.getMinutes()).slice(-2);
-            return pattern.replace(/%DD/g, rusDay).replace(/%HH/g, utcHours.slice(-2)).replace(/%MM/g, utcMin);
+            // Все из-за 100 символов в строке )
+            var result = pattern.replace(/%DD/g, rusDay);
+            return result.replace(/%HH/g, utcHours.slice(-2)).replace(/%MM/g, utcMin);
         },
 
         // Возвращает кол-во времени между текущей датой и переданной `moment`
