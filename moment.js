@@ -16,15 +16,19 @@ module.exports = function () {
         date: null,
 
         // А здесь часовой пояс
-        timezone: null,
+        // Раз банк в
+        timezone: +5,
 
         // Выводит дату в переданном формате
         // Если timezone === null, то показываем в локальном времени
         format: function (pattern) {
-            var utcDay = this.date.getUTCDay(); // Sunday is 0, Monday is 1, and so on.
+            var zoneDate = new Date(this.date.getTime());
+            zoneDate.setHours(zoneDate.getHours() + this.timezone);
+
+            var utcDay = zoneDate.getUTCDay(); // Sunday is 0, Monday is 1, and so on.
             var rusDay = rusWeekDays[utcDay];
-            var utcHours = String('0' + this.date.getHours()).slice(-2);
-            var utcMin = String('0' + this.date.getMinutes()).slice(-2);
+            var utcHours = String('0' + zoneDate.getUTCHours()).slice(-2);
+            var utcMin = String('0' + zoneDate.getUTCMinutes()).slice(-2);
             // Все из-за 100 символов в строке )
             var result = pattern.replace(/%DD/g, rusDay);
             return result.replace(/%HH/g, utcHours.slice(-2)).replace(/%MM/g, utcMin);
