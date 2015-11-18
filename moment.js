@@ -77,6 +77,65 @@ module.exports = function () {
         // Возвращает кол-во времени между текущей датой и переданной `moment`
         // в человекопонятном виде
         fromMoment: function (moment) {
+            var minDeclension = {
+                0: 'минут',
+                1: 'минута',
+                2: 'минуты',
+                3: 'минуты',
+                4: 'минуты',
+                5: 'минут',
+                6: 'минут',
+                7: 'минут',
+                8: 'минут',
+                9: 'минут',
+                11: 'минут',
+                12: 'минут',
+                13: 'минут',
+                14: 'минут'
+            };
+            var hoursDeclension = {
+                0: 'часов',
+                1: 'час',
+                2: 'часа',
+                3: 'часа',
+                4: 'часа',
+                5: 'часов',
+                6: 'часов',
+                7: 'часов',
+                8: 'часов',
+                9: 'часов',
+                11: 'часов',
+                12: 'часов',
+                13: 'часов',
+                14: 'часов'
+            };
+            var dayDeclension = {
+                0: 'дней',
+                1: 'день',
+                2: 'дня',
+                3: 'дня',
+                4: 'дня',
+                5: 'дней',
+                6: 'дней',
+                7: 'дней',
+                8: 'дней',
+                9: 'дней',
+                11: 'дней',
+                12: 'дней',
+                13: 'дней',
+                14: 'дней'
+            };
+            var declension = function (val, type) {
+                var types = {
+                    day: dayDeclension,
+                    hour: hoursDeclension,
+                    minute: minDeclension
+                };
+                if (Object.keys(types[type]).indexOf(val) !== -1) {
+                    return types[type][val];
+                }
+                return types[type][val % 10];
+            };
             var diffMs = this._date.getTime() - moment._date.getTime();
             var oneDay = 1000 * 60 * 60 * 24;
             var oneHour = 1000 * 60 * 60;
@@ -89,13 +148,13 @@ module.exports = function () {
             var remMin = remHours % oneHour;
             var resTime = '';
             if (fullDays) {
-                resTime += ' ' + fullDays + ' день';
+                resTime += ' ' + fullDays + ' ' + declension(fullDays, 'day');
             }
             if (fullHours) {
-                resTime += ' ' + fullHours + ' часов';
+                resTime += ' ' + fullHours + ' ' + declension(fullHours, 'hour');
             }
             if (fullMin) {
-                resTime += ' ' + fullMin + ' минут';
+                resTime += ' ' + fullMin + ' ' + declension(fullMin, 'minute');
             }
             return 'До ограбления остался' + resTime;
         }
