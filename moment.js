@@ -156,7 +156,37 @@ module.exports = function () {
             if (fullMin) {
                 resTime += ' ' + fullMin + ' ' + declension(fullMin, 'minute');
             }
-            return 'До ограбления остался' + resTime;
+            var left;
+            // Для мужского рода
+            var left_m = function (val) {
+                if (val === 1) {
+                    return 'остался';
+                }
+                if (val === 2) {
+                    return 'осталось';
+                }
+                return 'осталось';
+            };
+            // Для женского рода
+            var left_f = function (val) {
+                if (val === 1) {
+                    return 'осталась';
+                }
+                if (val === 2) {
+                    return 'осталось';
+                }
+                return 'осталось';
+            };
+            if (fullDays || fullHours) {
+                if (fullDays) {
+                    left = left_m(fullDays);
+                } else {
+                    left = left_m(fullHours);
+                }
+            } else {
+                left = left_m(fullMin);
+            }
+            return 'До ограбления ' + left + resTime;
         }
     };
 };
