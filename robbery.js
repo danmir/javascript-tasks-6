@@ -44,7 +44,7 @@ function isAvailable(date, name, gang) {
     gang[name].forEach(function (timeDict) {
         var f = timeDict['from'].getTime();
         var t = timeDict['to'].getTime();
-        if (f <= date && date <= t) {
+        if (f <= date && date < t) {
             available = false;
         }
     }, this);
@@ -102,7 +102,6 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
             }
             if (currFreePeopleCount === 3 && !startTime) {
                 startTime = ms;
-                currFreeSegment++;
             } else if (currFreePeopleCount === 3 && startTime) {
                 currFreeSegment++;
             } else {
