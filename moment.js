@@ -184,7 +184,7 @@ module.exports = function () {
                     left = left_m(fullHours);
                 }
             } else {
-                left = left_m(fullMin);
+                left = left_f(fullMin);
             }
             return 'До ограбления ' + left + resTime;
         }
