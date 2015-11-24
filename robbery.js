@@ -42,7 +42,7 @@ function converToRealTime(formatedTime) {
 function isAvailable(date, name, gang) {
     var available = true;
     gang[name].forEach(function (timeDict) {
-        if (timeDict['from'].getTime() <= date && date < timeDict['to'].getTime()) {
+        if (timeDict['from'].getTime() < date && date < timeDict['to'].getTime()) {
             available = false;
         }
     }, this);
