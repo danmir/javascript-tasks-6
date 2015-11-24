@@ -42,9 +42,7 @@ function converToRealTime(formatedTime) {
 function isAvailable(date, name, gang) {
     var available = true;
     gang[name].forEach(function (timeDict) {
-        var f = timeDict['from'].getTime();
-        var t = timeDict['to'].getTime();
-        if (f <= date && date < t) {
+        if (timeDict['from'].getTime() <= date && date < timeDict['to'].getTime()) {
             available = false;
         }
     }, this);
@@ -59,10 +57,12 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
     // Делаем стандартную дату
     for (var name in gang) {
         gang[name].forEach(function (timeDict) {
-            timeDict['from'] = converToRealTime(timeDict['from']);
-            timeDict['to'] = converToRealTime(timeDict['to']);
+            timeDict.from = converToRealTime(timeDict.from);
+            timeDict.to = converToRealTime(timeDict.to);
         }, this);
     }
+    // Количество грабителей
+    var peopleCount = Object.keys(gang).length;
 
     // Простое решение:
     // Идем по каждому дню с момента открытие по момент закрытия банка
@@ -100,9 +100,9 @@ module.exports.getAppropriateMoment = function (json, minDuration, workingHours)
                     currFreePeopleCount++;
                 }
             }
-            if (currFreePeopleCount === 3 && !startTime) {
+            if (currFreePeopleCount === peopleCount && !startTime) {
                 startTime = ms;
-            } else if (currFreePeopleCount === 3 && startTime) {
+            } else if (currFreePeopleCount === peopleCount && startTime) {
                 currFreeSegment++;
             } else {
                 startTime = 0;
