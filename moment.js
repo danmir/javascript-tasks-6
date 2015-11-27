@@ -78,12 +78,12 @@ module.exports = function () {
         // в человекопонятном виде
         fromMoment: function (moment) {
             function getNumEnding(iNumber, aEndings) {
-                var sEnding, i;
+                var sEnding;
+                var i;
                 iNumber = iNumber % 100;
-                if (iNumber>=11 && iNumber<=19) {
-                    sEnding=aEndings[2];
-                }
-                else {
+                if (iNumber >= 11 && iNumber <= 19) {
+                    sEnding = aEndings[2];
+                } else {
                     i = iNumber % 10;
                     switch (i) {
                         case (1): sEnding = aEndings[0]; break;
