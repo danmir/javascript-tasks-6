@@ -63,7 +63,7 @@ module.exports = function () {
         // Если timezone === null, то показываем в локальном времени
         format: function (pattern) {
             if (!this.date) {
-                return "Укажите время, от которого считать";
+                return 'Укажите время, от которого считать';
             }
             var zoneDate = new Date(this.date.getTime());
             zoneDate.setHours(zoneDate.getHours() + this.timezone);
