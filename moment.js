@@ -62,7 +62,10 @@ module.exports = function () {
         // Выводит дату в переданном формате
         // Если timezone === null, то показываем в локальном времени
         format: function (pattern) {
-            var zoneDate = new Date(this._date.getTime());
+            if (!this.date) {
+                return "Укажите время, от которого считать";
+            }
+            var zoneDate = new Date(this.date.getTime());
             zoneDate.setHours(zoneDate.getHours() + this.timezone);
 
             var utcDay = zoneDate.getUTCDay(); // Sunday is 0, Monday is 1, and so on.
